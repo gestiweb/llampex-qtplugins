@@ -1,0 +1,10 @@
+Ejemplos de plugins de python para QtDesigner. Estos ejemplos fueron 
+tomados del código fuente de PyQt4. Para probarlos hay que ejecutar:
+
+python plugins.py
+
+Debería abrirse QtDesigner4 con los nuevos plugins.
+
+Además se han agregado uns plugins extra en un grupo "Llampex".
+
+
