@@ -181,6 +181,10 @@ class FLFieldDB(QtGui.QFrame):
         self.setLayout(self._layout)
         
         self._fieldName = ""
+	self._tableName = ""
+	self._fieldRelation = ""
+	self._foreignField = ""
+	self._actionName = ""
         self.connect(self._button, QtCore.SIGNAL("released()"),
                         self.searchClicked)
         self._mode = 0
@@ -195,6 +199,46 @@ class FLFieldDB(QtGui.QFrame):
     
     def resetFieldName(self):
         self._fieldName = ""
+
+    def getTableName(self):
+        return self._tableName
+    
+    @QtCore.pyqtSlot(str)
+    def setTableName(self,value):
+        self._tableName = value
+    
+    def resetTableName(self):
+        self._tableName = ""
+
+    def getFieldRelation(self):
+        return self._fieldRelation
+    
+    @QtCore.pyqtSlot(str)
+    def setFieldRelation(self,value):
+        self._fieldRelation = value
+    
+    def resetFieldRelation(self):
+        self._fieldRelation = ""
+
+    def getForeignField(self):
+        return self._foreignField
+    
+    @QtCore.pyqtSlot(str)
+    def setForeignField(self,value):
+        self._foreignField = value
+    
+    def resetForeignField(self):
+        self._foreignField = ""
+
+    def getActionName(self):
+        return self._actionName
+    
+    @QtCore.pyqtSlot(str)
+    def setActionName(self,value):
+        self._actionName = value
+    
+    def resetActionName(self):
+        self._actionName = ""
     
     def setMargin(self,value): 
         self._margin = value
@@ -248,6 +292,10 @@ class FLFieldDB(QtGui.QFrame):
     margin = QtCore.pyqtProperty(int, getMargin, setMargin, None)
     
     fieldName = QtCore.pyqtProperty(str, getFieldName, setFieldName, resetFieldName)
+    tableName = QtCore.pyqtProperty(str, getTableName, setTableName, resetTableName)
+    fieldRelation = QtCore.pyqtProperty(str, getFieldRelation, setFieldRelation, resetFieldRelation)
+    foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
+    actionName = QtCore.pyqtProperty(str, getActionName, setActionName, resetActionName)
 
     labelSuffix = QtCore.pyqtProperty(str, getLabelSuffix, setLabelSuffix, None)
     labelMinWidth = QtCore.pyqtProperty(int, getLabelMinWidth, setLabelMinWidth, None)
