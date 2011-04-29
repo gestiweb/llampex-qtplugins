@@ -484,6 +484,69 @@ class FLClock(QtGui.QWidget):
     timeZone = QtCore.pyqtProperty(int, getTimeZone, setTimeZone, resetTimeZone)
 
 
+
+
+
+class FLTableDB(QtGui.QFrame):
+    searchClicked = QtCore.pyqtSignal()
+    
+    def __init__(self, parent=None):
+        super(FLTableDB, self).__init__(parent)
+        self._layout = QtGui.QHBoxLayout()
+        self._editors = {
+            'table' : QtGui.QTableWidget(),
+        }
+        self._editor = self._editors['table']
+        for editor in self._editors.values():
+            editor.setVisible(False)
+            editor.setSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+            self._layout.addWidget(editor)
+        self._editor.setVisible(True)
+        self._layout.setSpacing(0)
+        self._margin = 3
+        self._layout.setContentsMargins(self._margin,self._margin,self._margin,self._margin)
+        self.setLayout(self._layout)
+
+	self._tableName = ""
+	self._fieldRelation = ""
+	self._foreignField = ""
+
+    def getTableName(self):
+        return self._tableName
+    
+    @QtCore.pyqtSlot(str)
+    def setTableName(self,value):
+        self._tableName = value
+    
+    def resetTableName(self):
+        self._tableName = ""
+
+    def getFieldRelation(self):
+        return self._fieldRelation
+    
+    @QtCore.pyqtSlot(str)
+    def setFieldRelation(self,value):
+        self._fieldRelation = value
+    
+    def resetFieldRelation(self):
+        self._fieldRelation = ""
+
+    def getForeignField(self):
+        return self._foreignField
+    
+    @QtCore.pyqtSlot(str)
+    def setForeignField(self,value):
+        self._foreignField = value
+    
+    def resetForeignField(self):
+        self._foreignField = ""
+
+    tableName = QtCore.pyqtProperty(str, getTableName, setTableName, resetTableName)
+    fieldRelation = QtCore.pyqtProperty(str, getFieldRelation, setFieldRelation, resetFieldRelation)
+    foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
+
+
+
 if __name__ == "__main__":
 
     import sys
@@ -491,4 +554,8 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     field1 = FLFieldDB()
     field1.show()
+
+    table1 = FLTableDB()
+    table1.show()
+
     sys.exit(app.exec_())
