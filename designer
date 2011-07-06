@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export PYQTDESIGNERPATH=python
+export PYTHONPATH=widgets
+designer-qt4

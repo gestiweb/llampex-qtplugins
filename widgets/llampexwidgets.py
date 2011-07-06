@@ -2,7 +2,6 @@
 
 from PyQt4 import QtCore, QtGui
 import math
-
 class FLFieldDB(QtGui.QFrame):
     searchClicked = QtCore.pyqtSignal()
     enumFieldType = ["auto","string","optionlist","double",
@@ -483,6 +482,162 @@ class FLClock(QtGui.QWidget):
     # in this case, getter, setter and resetter methods.
     timeZone = QtCore.pyqtProperty(int, getTimeZone, setTimeZone, resetTimeZone)
 
+class LlItemView(QtGui.QFrame):
+    searchClicked = QtCore.pyqtSignal()
+    
+    def __init__(self, parent=None):
+        super(LlItemView, self).__init__(parent)
+        self._layout = QtGui.QHBoxLayout()
+        self._labelSuffix = ": "
+        self._label = QtGui.QLabel("FieldName" + self._labelSuffix)
+        self._button = QtGui.QToolButton()
+        self._button.setText("::")
+        self._editor = QtGui.QLineEdit("FieldContent")
+        self._layout.addWidget(self._label)
+        self._layout.addWidget(self._button)
+        self._editor.setSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self._layout.addWidget(self._editor)
+        self._label.setSizePolicy(QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Minimum)
+        self._button.setSizePolicy(QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Minimum)
+        self._layout.setSpacing(0)
+        self._margin = 3
+        self._layout.setContentsMargins(self._margin,self._margin,self._margin,self._margin)
+        self.setLayout(self._layout)
+        
+        self._fieldName = ""
+        self._tableName = ""
+        self._fieldRelation = ""
+        self._foreignField = ""
+        self._actionName = ""
+        self.connect(self._button, QtCore.SIGNAL("released()"),
+                        self.searchClicked)
+        self._mode = 0
+        self._fieldType = 0
+    
+    def replaceEditorWidget(self, widget):
+        try: self._editor.close()
+        except Exception, e: print e
+        self._editor = widget
+        self._layout.addWidget(self._editor)
+    
+    def getFieldName(self):
+        return self._fieldName
+    
+    @QtCore.pyqtSlot(str)
+    def setFieldName(self,value):
+        self._fieldName = value
+    
+    def resetFieldName(self):
+        self._fieldName = ""
+
+    def getTableName(self):
+        return self._tableName
+    
+    @QtCore.pyqtSlot(str)
+    def setTableName(self,value):
+        self._tableName = value
+    
+    def resetTableName(self):
+        self._tableName = ""
+
+    def getFieldRelation(self):
+        return self._fieldRelation
+    
+    @QtCore.pyqtSlot(str)
+    def setFieldRelation(self,value):
+        self._fieldRelation = value
+    
+    def resetFieldRelation(self):
+        self._fieldRelation = ""
+
+    def getForeignField(self):
+        return self._foreignField
+    
+    @QtCore.pyqtSlot(str)
+    def setForeignField(self,value):
+        self._foreignField = value
+    
+    def resetForeignField(self):
+        self._foreignField = ""
+
+    def getActionName(self):
+        return self._actionName
+    
+    @QtCore.pyqtSlot(str)
+    def setActionName(self,value):
+        self._actionName = value
+    
+    def resetActionName(self):
+        self._actionName = ""
+    
+    def setMargin(self,value): 
+        self._margin = value
+        self._layout.setContentsMargins(self._margin,self._margin,self._margin,self._margin)
+    
+    def getMargin(self): return self._margin
+
+    @QtCore.pyqtSlot(str)
+    def setLabelSuffix(self,value): self._labelSuffix = value; self.setLabelText(self.getLabelText())
+    def getLabelSuffix(self): return self._labelSuffix
+    
+    @QtCore.pyqtSlot(str)
+    def setLabelText(self,value): return self._label.setText(value+self._labelSuffix)
+    def getLabelText(self): 
+        if self._labelSuffix:
+            x = len(self._labelSuffix)
+            return self._label.text()[:-x] 
+        else:
+            return self._label.text()
+
+    @QtCore.pyqtSlot(int)
+    def setLabelMinWidth(self,value): 
+        self._label.setMinimumWidth(value)
+        
+    def getLabelMinWidth(self): return self._label.minimumWidth()
+
+    @QtCore.pyqtSlot(str)
+    def setButtonText(self,value): return self._button.setText(value)
+    def getButtonText(self): return self._button.text()
+    
+    def getEditorText(self): return self._editor.text()
+    
+    @QtCore.pyqtSlot(str)
+    def setEditorText(self,value): return self._editor.setText(value)
+    
+    @QtCore.pyqtSlot()
+    def resetEditorText(self): return self._editor.setText("")
+    
+    @QtCore.pyqtSlot(bool)
+    def setLabelVisible(self,value): self._label.setVisible(value)
+    def isLabelVisible(self): return self._label.isVisible()
+    
+    @QtCore.pyqtSlot(bool)
+    def setEditorVisible(self,value): self._editor.setVisible(value)
+    def isEditorVisible(self): return self._editor.isVisible()
+    
+    @QtCore.pyqtSlot(bool)
+    def setButtonVisible(self,value): self._button.setVisible(value)
+    def isButtonVisible(self): return self._button.isVisible()
+    
+    margin = QtCore.pyqtProperty(int, getMargin, setMargin, None)
+    
+    fieldName = QtCore.pyqtProperty(str, getFieldName, setFieldName, resetFieldName)
+    tableName = QtCore.pyqtProperty(str, getTableName, setTableName, resetTableName)
+    fieldRelation = QtCore.pyqtProperty(str, getFieldRelation, setFieldRelation, resetFieldRelation)
+    foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
+    actionName = QtCore.pyqtProperty(str, getActionName, setActionName, resetActionName)
+
+    labelSuffix = QtCore.pyqtProperty(str, getLabelSuffix, setLabelSuffix, None)
+    labelMinWidth = QtCore.pyqtProperty(int, getLabelMinWidth, setLabelMinWidth, None)
+    
+    editorText = QtCore.pyqtProperty(str, getEditorText, setEditorText, resetEditorText)
+    labelText = QtCore.pyqtProperty(str, getLabelText, setLabelText, None)
+    buttonText = QtCore.pyqtProperty(str, getButtonText, setButtonText, None)
+    
+    labelVisible = QtCore.pyqtProperty(bool, isLabelVisible, setLabelVisible, None)
+    editorVisible = QtCore.pyqtProperty(bool, isEditorVisible, setEditorVisible, None)
+    buttonVisible = QtCore.pyqtProperty(bool, isButtonVisible, setButtonVisible, None)
+
 
 
 
@@ -559,3 +714,4 @@ if __name__ == "__main__":
     table1.show()
 
     sys.exit(app.exec_())
+
