@@ -490,15 +490,19 @@ class LlItemView(QtGui.QFrame):
         self._layout = QtGui.QHBoxLayout()
         self._labelSuffix = ": "
         self._label = QtGui.QLabel("FieldName" + self._labelSuffix)
+        font = self._label.font()
+        font.setBold(True)
+        self._label.setFont(font)
+
         self._button = QtGui.QToolButton()
         self._button.setText("::")
         self._editor = QtGui.QLineEdit("FieldContent")
         self._layout.addWidget(self._label)
         self._layout.addWidget(self._button)
-        self._editor.setSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Minimum)
+        self._editor.setSizePolicy(QtGui.QSizePolicy.Preferred,QtGui.QSizePolicy.Minimum)
         self._layout.addWidget(self._editor)
-        self._label.setSizePolicy(QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Minimum)
-        self._button.setSizePolicy(QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Minimum)
+        self._label.setSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Minimum)
+        self._button.setSizePolicy(QtGui.QSizePolicy.Fixed,QtGui.QSizePolicy.Fixed)
         self._layout.setSpacing(0)
         self._margin = 3
         self._layout.setContentsMargins(self._margin,self._margin,self._margin,self._margin)
@@ -513,11 +517,21 @@ class LlItemView(QtGui.QFrame):
                         self.searchClicked)
         self._mode = 0
         self._fieldType = 0
+        self.setMaximumHeight(48)
+        self.setSizePolicy(QtGui.QSizePolicy.Preferred,QtGui.QSizePolicy.Minimum)
+    
+    #def sizeHint(self):
+    #   return QtCore.QSize(80,20)
+    def setSizePolicy(self, *args):
+        ret = QtGui.QFrame.setSizePolicy(self,*args)
+        self._editor.setSizePolicy(self.sizePolicy())
+        return ret        
     
     def replaceEditorWidget(self, widget):
         try: self._editor.close()
         except Exception, e: print e
         self._editor = widget
+        self._editor.setSizePolicy(self.sizePolicy())
         self._layout.addWidget(self._editor)
     
     def getFieldName(self):
