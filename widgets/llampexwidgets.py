@@ -675,11 +675,22 @@ class FLTableDB(QtGui.QFrame):
         self._margin = 3
         self._layout.setContentsMargins(self._margin,self._margin,self._margin,self._margin)
         self.setLayout(self._layout)
-
+        
+        self._actionName = ""
 	self._tableName = ""
 	self._fieldRelation = ""
 	self._foreignField = ""
-
+    
+    def getActionName(self):
+        return self._actionName
+    
+    @QtCore.pyqtSlot(str)
+    def setActionName(self,value):
+        self._actionName = value
+    
+    def resetActionName(self):
+        self._actionName = ""
+    
     def getTableName(self):
         return self._tableName
     
@@ -709,7 +720,8 @@ class FLTableDB(QtGui.QFrame):
     
     def resetForeignField(self):
         self._foreignField = ""
-
+    
+    actionName = QtCore.pyqtProperty(str, getActionName, setActionName, resetActionName)
     tableName = QtCore.pyqtProperty(str, getTableName, setTableName, resetTableName)
     fieldRelation = QtCore.pyqtProperty(str, getFieldRelation, setFieldRelation, resetFieldRelation)
     foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
