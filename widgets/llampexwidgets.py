@@ -725,14 +725,11 @@ class FLTableDB(QtGui.QFrame):
     foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
 
 
-class LlTableDB(QtGui.QTableWidget):
+class LlTableDB(QtGui.QTableView):
     searchClicked = QtCore.pyqtSignal()
    
     def __init__(self, parent=None):
         super(LlTableDB, self).__init__(parent)
-        
-        #self._layout = QtGui.QHBoxLayout()
-        #self._editor = QtGui.QTableWidget()        
         
         self._actionName = ""
 	self._tableName = ""
