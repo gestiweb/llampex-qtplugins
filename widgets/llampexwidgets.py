@@ -654,8 +654,6 @@ class LlItemView(QtGui.QFrame):
 
 
 
-
-
 class FLTableDB(QtGui.QFrame):
     searchClicked = QtCore.pyqtSignal()
     
@@ -727,6 +725,65 @@ class FLTableDB(QtGui.QFrame):
     foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
 
 
+class LlTableDB(QtGui.QTableWidget):
+    searchClicked = QtCore.pyqtSignal()
+   
+    def __init__(self, parent=None):
+        super(LlTableDB, self).__init__(parent)
+        
+        #self._layout = QtGui.QHBoxLayout()
+        #self._editor = QtGui.QTableWidget()        
+        
+        self._actionName = ""
+	self._tableName = ""
+	self._fieldRelation = ""
+	self._foreignField = ""
+    
+    def getActionName(self):
+        return self._actionName
+    
+    @QtCore.pyqtSlot(str)
+    def setActionName(self,value):
+        self._actionName = value
+    
+    def resetActionName(self):
+        self._actionName = ""
+    
+    def getTableName(self):
+        return self._tableName
+    
+    @QtCore.pyqtSlot(str)
+    def setTableName(self,value):
+        self._tableName = value
+    
+    def resetTableName(self):
+        self._tableName = ""
+
+    def getFieldRelation(self):
+        return self._fieldRelation
+    
+    @QtCore.pyqtSlot(str)
+    def setFieldRelation(self,value):
+        self._fieldRelation = value
+    
+    def resetFieldRelation(self):
+        self._fieldRelation = ""
+
+    def getForeignField(self):
+        return self._foreignField
+    
+    @QtCore.pyqtSlot(str)
+    def setForeignField(self,value):
+        self._foreignField = value
+    
+    def resetForeignField(self):
+        self._foreignField = ""
+    
+    actionName = QtCore.pyqtProperty(str, getActionName, setActionName, resetActionName)
+    tableName = QtCore.pyqtProperty(str, getTableName, setTableName, resetTableName)
+    fieldRelation = QtCore.pyqtProperty(str, getFieldRelation, setFieldRelation, resetFieldRelation)
+    foreignField = QtCore.pyqtProperty(str, getForeignField, setForeignField, resetForeignField)
+
 
 if __name__ == "__main__":
 
@@ -739,5 +796,8 @@ if __name__ == "__main__":
     table1 = FLTableDB()
     table1.show()
 
+    llampexTable = LlTableDB()
+    llampexTable.show()
+    
     sys.exit(app.exec_())
 
