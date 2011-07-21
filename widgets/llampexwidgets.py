@@ -519,6 +519,8 @@ class LlItemView(QtGui.QFrame):
         self._fieldType = 0
         self.setMaximumHeight(48)
         self.setSizePolicy(QtGui.QSizePolicy.Preferred,QtGui.QSizePolicy.Minimum)
+        self._label.show()
+        
     
     #def sizeHint(self):
     #   return QtCore.QSize(80,20)
@@ -623,15 +625,15 @@ class LlItemView(QtGui.QFrame):
     
     @QtCore.pyqtSlot(bool)
     def setLabelVisible(self,value): self._label.setVisible(value)
-    def isLabelVisible(self): return self._label.isVisible()
+    def isLabelVisible(self): return not self._label.isHidden()
     
     @QtCore.pyqtSlot(bool)
     def setEditorVisible(self,value): self._editor.setVisible(value)
-    def isEditorVisible(self): return self._editor.isVisible()
+    def isEditorVisible(self): return not self._editor.isHidden()
     
     @QtCore.pyqtSlot(bool)
     def setButtonVisible(self,value): self._button.setVisible(value)
-    def isButtonVisible(self): return self._button.isVisible()
+    def isButtonVisible(self): return not self._button.isHidden()
     
     margin = QtCore.pyqtProperty(int, getMargin, setMargin, None)
     
